@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Nilai</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        background-image: url(/backgroundKelas.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
+        position: relative;
+        background-color: rgb(0, 0, 0, 0.6);
+      }
+
+      .title {
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+        font-family: Arial, Helvetica, sans-serif;
+        word-spacing: 5px;
+        color: white;
+      }
+
+      .succes {
+        width: 80%;
+        border-radius: 5px;
+        background-color: rgba(62, 248, 62, 0.548);
+        color: white;
+        padding: 5px;
+        margin-bottom: 1rem;
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        display: none;
+      }
+
+      .succes.active {
+        display: flex;
+      }
+
+      .succes p {
+        margin-left: 1rem;
+      }
+
+      .succes .remove-alert {
+        padding: 2px 10px;
+        border-radius: 50%;
+        font-size: 1.3rem;
+        cursor: pointer;
+      }
+      .succes .remove-alert:hover {
+        color: red;
+      }
+      .table {
+        width: 80%;
+        overflow-y: auto;
+        max-height: 50%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .table::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: black;
+      }
+
+      .table::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: transparent;
+      }
+      .table:hover::-webkit-scrollbar-thumb {
+        background-color: skyblue;
+      }
+
+      table {
+        width: 100%;
+        text-align: center;
+        border-radius: 5px;
+        border-collapse: collapse;
+        text-align: center;
+      }
+
+      tr {
+        background-color: white;
+      }
+
+      /* tr:nth-child(even) {
+        background-color: rgb(221, 218, 218);
+      } */
+
+      tr:hover {
+        background-color: rgba(216, 234, 236, 0.918);
+      }
+
+      th {
+        background-color: skyblue;
+        padding: 5px 15px;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        font-size: 1rem;
+      }
+
+      td {
+        padding: 20px 15px;
+        border-bottom: 1px solid black;
+      }
+
+      .remove {
+        text-decoration: none;
+        color: white;
+        background-color: rgb(255, 91, 91);
+        border-radius: 50%;
+        padding: 5px 10px;
+        transition: 0.3s;
+        font-size: 1rem;
+      }
+
+      .remove:hover {
+        background-color: red;
+      }
+
+      .no-data {
+        width: 100%;
+        text-align: center;
+        overflow: hidden;
+      }
+      .no-data h1 {
+        color: white;
+        width: 100%;
+        background-color: rgb(0, 0, 0, 0.5);
+        padding: 2rem 0px;
+      }
+
+      .add-data {
+        width: 150px;
+        padding: 10px 0px;
+        outline: none;
+        border: 1px solid white;
+        font-family: Arial, Helvetica, sans-serif;
+        border-radius: 5px;
+        font-size: 1rem;
+        margin: 5rem 0px 1rem 0px;
+        background: transparent;
+        transition: 0.3s;
+        color: white;
+      }
+
+      .add-data:hover {
+        border: 1px solid black;
+        color: black;
+        background: skyblue;
+      }
+
+      .input-data {
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        overflow: hidden;
+        bottom: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .input-data.active {
+        display: flex;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .x {
+        color: white;
+        position: absolute;
+        right: 3rem;
+        top: 0;
+        font-size: 4rem;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+
+      .x:hover {
+        color: red;
+      }
+
+      .form {
+        width: 30%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        padding: 1rem 2rem;
+        text-align: center;
+      }
+      .form h1 {
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .form .alert {
+        width: 100%;
+        background-color: rgba(238, 62, 62, 0.63);
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+        display: none;
+        text-align: left;
+      }
+
+      .form .alert.active {
+        display: block;
+      }
+
+      .form .form-input {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
+
+      .form .form-input label {
+        font-size: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .form .form-input input {
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid gray;
+      }
+
+      .form .form-input input:focus {
+        border-color: skyblue;
+      }
+      .form .form-input .btn {
+        width: 100px;
+        padding: 10px 0px;
+        outline: none;
+        border: 1px solid black;
+        font-family: Arial, Helvetica, sans-serif;
+        border-radius: 5px;
+        margin: 2rem 0px 1rem 0px;
+        background: transparent;
+      }
+      .form .form-input .btn:hover {
+        background: skyblue;
+      }
+
+      /* media queries */
+      @media (min-width: 0px) and (max-width: 767px) {
+        .form {
+          width: 60%;
+        }
+        .form h1 {
+          font-size: 1rem;
+        }
+
+        .add-data {
+          width: 100px;
+          font-size: 10px;
+        }
+        .no-data h1 {
+          font-size: 1rem;
+          padding: 2rem 0px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Masukan Nilai Kalian</h1>
+
+      <div class="succes">
+        <p>Data Berhasil Ditambahkan</p>
+        <span class="remove-alert">&times;</span>
+      </div>
+      <div class="succes">
+        <p>Data Berhasil DiHapus</p>
+        <span class="remove-alert">&times;</span>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>NISN</th>
+              <th>Nilai</th>
+              <th>Hapus</th>
+            </tr>
+          </thead>
+          <tbody class="tbody"></tbody>
+        </table>
+        <div class="no-data"><h1>anda tidak memiliki data</h1></div>
+      </div>
+
+      <div class="btn-control">
+        <button class="add-data" style="margin-right: 1rem">
+          Tambahkan Data
+        </button>
+        <button class="add-data" onclick="removeALL()">Hapus semua Data</button>
+      </div>
+
+      <div class="input-data">
+        <span class="x">&times;</span>
+        <div class="form">
+          <h1>masukan data anda</h1>
+          <div class="alert">Harap isi semua data dengan benar!</div>
+          <form action="" method="post" autocomplete="off" class="form-input">
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="nama" />
+            <label for="nisn">NISN</label>
+            <input type="number" id="nisn" name="nisn" min="6" />
+            <label for="nilai">Nilai</label>
+            <input type="number" id="nilai" name="nilai" />
+            <button type="submit" class="btn">Tambah</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        Notifdata();
+      };
+      // mengambil data di local storage untuk ditampilkan di display
+      let datamurid = JSON.parse(localStorage.getItem("datamurid")) || {};
+
+      let tbody = document.querySelector(".tbody");
+
+      for (let id in datamurid) {
+        let row = `<tr>
+                        <td>${datamurid[id].Nama}</td>
+                        <td>${datamurid[id].NISN}</td>
+                        <td>${datamurid[id].Nilai}</td>
+                        <td><button class="remove" onclick="hapusData('${datamurid[id].NISN}')">&times;</button></td>
+                    </tr>`;
+        tbody.innerHTML += row;
+      }
+
+      // toogle button untuk memunculkan popup inputdata
+      const btn = document.querySelector(".add-data");
+      const inputData = document.querySelector(".input-data");
+
+      btn.addEventListener("click", function () {
+        inputData.classList.add("active");
+        // tombol x untuk menghilangkan pop up
+        const x = document.querySelector(".x");
+
+        x.addEventListener("click", function () {
+          inputData.classList.remove("active");
+        });
+      });
+
+      localStorage.getItem("nama");
+      localStorage.getItem("nisn");
+      localStorage.getItem("nilai");
+
+      // membatasi inputan number
+      document.getElementById("nisn").addEventListener("input", function () {
+        if (this.value.length > 6) {
+          this.value = this.value.slice(0, 6); // Potong ke 3 karakter
+        }
+      });
+
+      // validasi data dan menambah data ke local storage dan di beranda
+      let data = document.querySelector(".form-input");
+
+      data.addEventListener("submit", function (e) {
+        // mengubah submit agar tidak melink ke web lain
+        e.preventDefault();
+
+        let nama = document.querySelector("#nama").value.trim();
+        let nisn = document.querySelector("#nisn").value;
+        let nilai = document.querySelector("#nilai").value;
+
+        // validasi nama
+        if (nama == "") {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          return false;
+        }
+
+        // validasi nisn
+        if (nisn.length < 6) {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          alert.innerHTML = "NISN harus 6 digit";
+          return false;
+        }
+
+        // validasi nilai
+        if (nilai > 100) {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          alert.innerHTML = "nilai hanya sampai 100";
+          return false;
+        } else if (nilai < 0) {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          alert.innerHTML = "nilai tidak boleh dibawa 0";
+          return false;
+        } else if (nilai == "") {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          return false;
+        }
+
+        // mengecek data lama dan menambahkan data baru
+        let datalama = JSON.parse(localStorage.getItem("datamurid")) || [];
+
+        let databaru = {
+          Nama: nama,
+          NISN: nisn,
+          Nilai: nilai,
+        };
+
+        // const check = datalama.some((item) => item.NISN === databaru.NISN);
+
+        if (!datalama.some((item) => item.NISN === databaru.NISN)) {
+          datalama.push(databaru);
+          localStorage.setItem("datamurid", JSON.stringify(datalama));
+        } else {
+          const alert = document.querySelector(".alert");
+          alert.classList.add("active");
+          alert.innerHTML = "data murid sudah ada";
+          return false;
+        }
+
+        // menambah data ke tabel
+        let datamurid = JSON.parse(localStorage.getItem("datamurid")) || {};
+
+        let row = `<tr>
+        <td>${nama}</td>
+        <td>${nisn}</td>
+        <td>${nilai}</td>
+        <td><button class="remove" onclick="hapusData('${nisn}', this)">&times;</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+
+        // reset form
+        this.reset();
+        // function untuk menutup form setelah submit
+        close();
+        // function notif jika ada data
+        Notifdata();
+      });
+
+      // function menghapus data
+      function removeALL() {
+        localStorage.removeItem("datamurid");
+        location.reload();
+      }
+
+      // function untuk menutup form setelah submit
+      function close() {
+        const succes = document.querySelector(".succes");
+        const inputData = document.querySelector(".input-data");
+        succes.classList.add("active");
+        inputData.classList.remove("active");
+      }
+
+      // tombol untuk menghabus notifikasi succes
+      const succes = document.querySelector(".succes");
+      const removeAlert = document.querySelector(".remove-alert");
+
+      removeAlert.onclick = () => {
+        succes.classList.remove("active");
+      };
+
+      // function untuk menghapus data
+      function hapusData(nisn) {
+        let datamurid = JSON.parse(localStorage.getItem("datamurid")) || [];
+
+        // Filter data, buang yang NISN-nya sesuai
+        let hasil = datamurid.filter((murid) => murid.NISN !== nisn);
+
+        // Simpan kembali ke localStorage
+        localStorage.setItem("datamurid", JSON.stringify(hasil));
+
+        // Reload halaman atau render ulang tabel
+        location.reload(); // atau buat fungsi renderTabel()
+      }
+
+      // function notif jika ada data
+      function Notifdata() {
+        const daTa = JSON.parse(localStorage.getItem("datamurid"));
+        const nodata = document.querySelector(".no-data");
+        if (!daTa || daTa.length === 0) {
+          nodata.style.display = "block"; // Tampilkan notifikasi
+        } else if (data) {
+          nodata.style.display = "none"; // Sembunyikan notifikasi
+        }
+      }
+    </script>
+  </body>
+</html>
